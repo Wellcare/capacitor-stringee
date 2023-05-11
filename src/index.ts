@@ -11,3 +11,4 @@ const CapacitorStringee = registerPlugin<CapacitorStringeePlugin>(
 
 export * from './definitions'
 export { CapacitorStringee }
+// a
