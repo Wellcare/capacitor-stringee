@@ -23,10 +23,10 @@ export default defineComponent({
     const { log } = useLog()
     // const { token } = useStringee()
     const token = ref(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2ODY1NTc0NTIwNzgiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjg2NjQzODUyMDc4LCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2ODY1NTc0NTJ9.l6SIoq-n0CPpDSST-K_5w_RdSuB_2O75TWcDh4-DsDM'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTEwMzQ5MDU0MjQiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkxMTIxMzA1NDI0LCJ1c2VySWQiOiIzODk1MjIiLCJpYXQiOjE2OTEwMzQ5MDV9.fZgUccFDJnhlPecIl9gQEzbYoSD7f8sdDQnkkthfov8'
     )
-    const callFrom = ref('387283')
-    const callTo = ref('84329221173')
+    const callFrom = ref('389522')
+    const callTo = ref('user-6479ba22066d6c867be4558a')
     const status = ref('')
     const isAuth = ref(true)
     const StringeePlugin = CapacitorStringee
@@ -43,8 +43,8 @@ export default defineComponent({
       if (process.client)
         StringeePlugin.StringeeCall(
           {
-            callFrom: callFrom.value,
-            callTo: callTo.value,
+            from: callFrom.value,
+            to: callTo.value,
             displayName: 'User',
             displayImage: 'https://i.pravatar.cc/300'
           },
