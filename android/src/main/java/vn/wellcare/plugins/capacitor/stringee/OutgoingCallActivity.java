@@ -26,6 +26,8 @@ import com.stringee.call.StringeeCall.StringeeCallListener;
 import com.stringee.common.StringeeAudioManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.json.JSONObject;
 import vn.wellcare.plugins.capacitor.stringee.R.drawable;
 import vn.wellcare.plugins.capacitor.stringee.R.id;
@@ -56,6 +58,9 @@ public class OutgoingCallActivity
 
   private MediaState mMediaState;
   private SignalingState mSignalingState;
+
+  private Timer timer = new Timer();
+  private int seconds = 0;
 
   //  public interface StringeeCallCallback {
   //    void onStringeeCallCreated(StringeeCall stringeeCall);
@@ -282,7 +287,8 @@ public class OutgoingCallActivity
                   case ANSWERED:
                     tvState.setText("Starting");
                     if (mMediaState == MediaState.CONNECTED) {
-                      tvState.setText("Started");
+                      //                      tvState.setText("Started");
+                      startTimer();
                     }
                     break;
                   case BUSY:
@@ -450,6 +456,15 @@ public class OutgoingCallActivity
     //        }
   }
 
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+
+    timer.cancel();
+    stringeeCall.hangup();
+    Common.client.disconnect();
+  }
+
   private void endCall() {
     stringeeCall.hangup();
     Common.client.disconnect();
@@ -464,6 +479,8 @@ public class OutgoingCallActivity
     sensorManagerUtils.releaseSensor();
     vControl.setVisibility(View.GONE);
     btnEnd.setVisibility(View.GONE);
+    seconds = 0;
+    timer.cancel();
     // btnSwitch.setVisibility(View.GONE);
     Utils.postDelay(
       () -> {
@@ -475,6 +492,29 @@ public class OutgoingCallActivity
         }
         finish();
       },
+      1000
+    );
+  }
+
+  private void startTimer() {
+    timer.scheduleAtFixedRate(
+      new TimerTask() {
+        @Override
+        public void run() {
+          seconds++;
+          String time = "";
+          int minus = (int) (seconds / 60);
+          int second = seconds % 60;
+          if (minus <= 9) time = "0" + String.valueOf(minus); else time =
+            String.valueOf(minus);
+
+          if (second <= 9) time += ":0" + String.valueOf(second); else time +=
+            ":" + String.valueOf(second);
+
+          tvState.setText(time);
+        }
+      },
+      0,
       1000
     );
   }
