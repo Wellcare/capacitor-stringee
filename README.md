@@ -17,10 +17,15 @@ npx cap sync
 * [`StringeeConnect(...)`](#stringeeconnect)
 * [`StringeeCall(...)`](#stringeecall)
 * [`StringeeReject(...)`](#stringeereject)
+* [`StringeeHangup(...)`](#stringeehangup)
 * [`addListener('onConnectionConnected' | 'onConnectionDisconnected', ...)`](#addlisteneronconnectionconnected--onconnectiondisconnected)
 * [`addListener('onConnectionError', ...)`](#addlisteneronconnectionerror)
 * [`addListener('onRequestNewToken', ...)`](#addlisteneronrequestnewtoken)
 * [`addListener('onCustomMessage', ...)`](#addlisteneroncustommessage)
+* [`addListener('exception', ...)`](#addlistenerexception)
+* [`addListener('onStringeeCallEvent', ...)`](#addlisteneronstringeecallevent)
+* [`addListener('onAuthenticated', ...)`](#addlisteneronauthenticated)
+* [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -77,6 +82,19 @@ StringeeCall(options: { from: string; to: string; displayName?: string; displayI
 
 ```typescript
 StringeeReject(options: any) => Promise<void>
+```
+
+| Param         | Type             |
+| ------------- | ---------------- |
+| **`options`** | <code>any</code> |
+
+--------------------
+
+
+### StringeeHangup(...)
+
+```typescript
+StringeeHangup(options: any) => Promise<void>
 ```
 
 | Param         | Type             |
@@ -146,6 +164,65 @@ addListener(eventName: 'onCustomMessage', listenerFunc: (data: { msg: string; fr
 | **`listenerFunc`** | <code>(data: { msg: string; from: string; message?: string; }) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### addListener('exception', ...)
+
+```typescript
+addListener(eventName: 'exception', listenerFunc: (data: { message?: string | undefined; data?: any; }) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                                              |
+| ------------------ | ----------------------------------------------------------------- |
+| **`eventName`**    | <code>'exception'</code>                                          |
+| **`listenerFunc`** | <code>(data: { message?: string; data?: any; }) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### addListener('onStringeeCallEvent', ...)
+
+```typescript
+addListener(eventName: 'onStringeeCallEvent', listenerFunc: (data: { event: string; data?: any; }) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                                           |
+| ------------------ | -------------------------------------------------------------- |
+| **`eventName`**    | <code>'onStringeeCallEvent'</code>                             |
+| **`listenerFunc`** | <code>(data: { event: string; data?: any; }) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### addListener('onAuthenticated', ...)
+
+```typescript
+addListener(eventName: 'onAuthenticated', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                |
+| ------------------ | ----------------------------------- |
+| **`eventName`**    | <code>'onAuthenticated'</code>      |
+| **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Removes all listeners
 
 --------------------
 
