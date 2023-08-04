@@ -5,20 +5,7 @@ export interface CapacitorStringeePlugin {
    * echo input value
    */
   echo(options: { value: string }): Promise<{ value: string }>
-  /*
-  StringeeConnect(token: string, listenerFunc: (data: any) => void): void
-  StringeeCall(
-    data: {
-      callFrom: string
-      callTo: string
-    },
-    listenerFunc?: (data: any) => void
-  ): void
-  StringeeReject(listenerFunc: (data: any) => void): void
-  StringeeHangup(listenerFunc: (data: any) => void): void
-  // listener for connect event
-  // bug detect: seem capacitor only notify only one event, so I will temporary comment it
-  */
+
   StringeeConnect(options: { token: string }): Promise<{ token: string }>
 
   StringeeCall(options: {
@@ -29,6 +16,10 @@ export interface CapacitorStringeePlugin {
   }): Promise<void>
 
   StringeeReject(options: any): Promise<void>
+  StringeeHangup(options: any): Promise<void>
+
+  mute(): Promise<void>
+  unmute(): Promise<void>
 
   addListener(
     eventName: 'onConnectionConnected' | 'onConnectionDisconnected',
@@ -58,8 +49,28 @@ export interface CapacitorStringeePlugin {
     }) => void
   ): Promise<PluginListenerHandle> & PluginListenerHandle
 
+  addListener(
+    eventName: 'exception',
+    listenerFunc: (data: { message?: string; data?: any }) => void
+  ): Promise<PluginListenerHandle> & PluginListenerHandle
+
+  addListener(
+    eventName: 'onStringeeCallEvent',
+    listenerFunc: (data: { event: string, data?: any }) => void
+  ): Promise<PluginListenerHandle> & PluginListenerHandle
+
+  addListener(
+    eventName: 'onAuthenticated',
+    listenerFunc: (data: any) => void
+  ): Promise<PluginListenerHandle> & PluginListenerHandle
+
+  addListener(
+    eventName: 'onStringeeDidHangup',
+    listenerFunc: (data: any) => void
+  ): Promise<PluginListenerHandle> & PluginListenerHandle
+
   /**
    * Removes all listeners
    */
-  removeAllListeners(): Promise<void>;
+  removeAllListeners(): Promise<void>
 }
