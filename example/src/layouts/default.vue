@@ -30,6 +30,12 @@ export default defineComponent({
         icon: '$accountCircleOutline',
         activeIcon: '$accountCircle',
         to: 'account'
+      },
+      {
+        text: 'IOS',
+        icon: '$accountCircleOutline',
+        activeIcon: '$accountCircle',
+        to: 'ios-implement'
       }
     ]
     return { menuItems }

@@ -9,5 +9,11 @@ export const headConfig = {
   link: [
     { rel: 'preconnect', href: 'https://www.google-analytics.com' },
     { rel: 'preconnect', href: 'https://www.googleadservices.com' }
+  ],
+  script: [
+    {
+      src: 'https://cdn.stringee.com/sdk/web/latest/stringee-web-sdk.min.js',
+      type: 'text/javascript'
+    }
   ]
 }

@@ -17,7 +17,9 @@ import {
   mdiAccountCircleOutline,
   mdiMore,
   mdiDotsHorizontal,
-  mdiDotsHorizontalCircle
+  mdiDotsHorizontalCircle,
+  mdiFilter,
+  mdiContentCopy
 } from '@mdi/js'
 
 export default {
@@ -26,6 +28,8 @@ export default {
     values: {
       more: mdiMore,
       dotsHorizontal: mdiDotsHorizontal,
+      filter: mdiFilter,
+      contentCopy: mdiContentCopy,
       dotsHorizontalOutline: mdiDotsHorizontalCircle,
       accountCircle: mdiAccountCircle,
       accountCircleOutline: mdiAccountCircleOutline,

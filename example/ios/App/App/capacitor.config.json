@@ -1,13 +1,9 @@
 {
-	"appId": "vn.wellcare.capacitor.plugin.starter",
-	"appName": "CapacitorStringee",
+	"appId": "vn.wellcare.capacitor.stringee.example",
+	"appName": "CapacitorStringeeExample",
 	"webDir": "dist",
 	"bundledWebRuntime": false,
-	"plugins": {
-		"SplashScreen": {
-			"launchShowDuration": 0
-		}
-	},
+	"plugins": {},
 	"cordova": {},
 	"server": {
 		"iosScheme": "nuxtmobile"

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CapacitorStringeeExample</string>
+    <string name="title_activity_main">CapacitorStringeeExample</string>
+    <string name="package_name">vn.wellcare.capacitor.stringee.example</string>
+    <string name="custom_url_scheme">vn.wellcare.capacitor.stringee.example</string>
+</resources>

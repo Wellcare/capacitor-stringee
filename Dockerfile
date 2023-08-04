@@ -29,7 +29,7 @@ RUN yarn run verify:android
 RUN node build.js
 
 # step 4: release and publish
-FROM mhealthvn/node-builder:master 
+FROM mhealthvn/node-builder:master as publisher
 COPY --from=mobile-builder /usr/src/app/lib lib
 COPY package.json .
 RUN yarn publish:package

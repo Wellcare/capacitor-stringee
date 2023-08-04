@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[44],{632:function(t,e,n){"use strict";n.r(e);var l=n(42),c=Object(l.defineComponent)({setup:function(){}}),o=n(57),component=Object(o.a)(c,(function(){var t=this,e=t.$createElement;return(t._self._c||e)("div",{staticClass:"my-lg-16 mx-auto text-left",staticStyle:{"max-width":"70%"}},[t._t("default")],2)}),[],!1,null,null,null);e.default=component.exports}}]);
-//# sourceMappingURL=721c8e0.js.map

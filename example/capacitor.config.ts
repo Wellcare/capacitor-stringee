@@ -1,15 +1,11 @@
 import { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'vn.wellcare.capacitor.plugin.example',
-  appName: 'CapacitorPluginExample',
+  appId: 'vn.wellcare.capacitor.stringee.example',
+  appName: 'CapacitorStringeeExample',
   webDir: 'dist',
   bundledWebRuntime: false,
-  plugins: {
-    SplashScreen: {
-      launchShowDuration: 0
-    }
-  },
+  plugins: {},
   cordova: {},
   server: {
     iosScheme: 'nuxtmobile'

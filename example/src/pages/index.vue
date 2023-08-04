@@ -1,35 +1,87 @@
 <template>
-  <v-container>
-    <H1>Hello</H1>
-    <p>my name is {{ $t('name') }}</p>
-    <h2>Logs:</h2>
-    <p v-for="(item, index) in logs" :key="index">{{ item }}</p>
-  </v-container>
+  <div>
+    <v-container>
+      <w-text-field-copy v-model="token" label="token"></w-text-field-copy>
+      <v-btn @click="connect">Connect</v-btn>
+      <v-text-field v-model="callFrom" label="call from"></v-text-field>
+      <v-text-field v-model="callTo" label="call to"></v-text-field>
+      <v-btn :disabled="!isAuth" color="primary" @click="call">Call</v-btn>
+      <v-btn :disabled="!isAuth" color="error" @click="reject">Reject</v-btn>
+      <p>Status: {{ status }}</p>
+      <w-debug-log />
+    </v-container>
+  </div>
 </template>
-
 <script lang="ts">
 import { defineComponent, ref } from '@nuxtjs/composition-api'
 import { CapacitorStringee } from '@wellcare/capacitor-stringee'
-/// //
-export default defineComponent({
-  name: 'HomePage',
-  setup() {
-    const logs = ref(['setup...'])
-    if (process.client) {
-      logs.value.push('loading client')
-      document.addEventListener(
-        'deviceready',
-        () => {
-          logs.value.push('deviceready')
-        },
-        false
-      )
-    }
-    CapacitorStringee.echo({ value: 'hello' }).then((res) =>
-      logs.value.push(res.value)
-    )
+import { useLog } from '@wellcare/vue-component'
+// import { useStringee } from '../repositories/use-stringee'
 
-    return { logs }
+export default defineComponent({
+  setup() {
+    const { log } = useLog()
+    // const { token } = useStringee()
+    const token = ref(
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTEwMzQ5MDU0MjQiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkxMTIxMzA1NDI0LCJ1c2VySWQiOiIzODk1MjIiLCJpYXQiOjE2OTEwMzQ5MDV9.fZgUccFDJnhlPecIl9gQEzbYoSD7f8sdDQnkkthfov8'
+    )
+    const callFrom = ref('389522')
+    const callTo = ref('user-6479ba22066d6c867be4558a')
+    const status = ref('')
+    const isAuth = ref(true)
+    const StringeePlugin = CapacitorStringee
+    const connect = () => {
+      if (process.client)
+        StringeePlugin.StringeeConnect(
+          {
+            token: token.value
+          },
+          onClientEvent
+        )
+    }
+    const call = () => {
+      if (process.client)
+        StringeePlugin.StringeeCall(
+          {
+            from: callFrom.value,
+            to: callTo.value,
+            displayName: 'User',
+            displayImage: 'https://i.pravatar.cc/300'
+          },
+          onCallEvent
+        )
+    }
+    const reject = () => {
+      if (process.client)
+        StringeePlugin.StringeeReject((data: any) => {
+          log({ context: 'Stringee', message: `onReject ${data.event}`, data })
+        })
+    }
+    const onClientEvent = (data: any) => {
+      log({ context: 'Stringee', message: `onClientEvent ${data.event}`, data })
+      if (data.event === 'authen') isAuth.value = true
+    }
+    const onCallEvent = (data: any) => {
+      log({ context: 'Stringee', message: `onCallEvent ${data.event}`, data })
+      if (data.event === 'signaling-state') {
+        status.value = data.data.reason
+      }
+    }
+    return {
+      token,
+      callFrom,
+      callTo,
+      status,
+      isAuth,
+      connect,
+      call,
+      reject
+    }
+  },
+  head() {
+    return {
+      title: 'Stringee'
+    }
   }
 })
 </script>

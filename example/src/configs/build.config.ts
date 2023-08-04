@@ -43,8 +43,8 @@ export const buildConfg: any = {
   transpile: [/typed-vuex/, 'vee-validate/dist/rules', '@wellcare/vue-authen'],
   babel: {
     plugins: [
-      ['@babel/plugin-proposal-private-methods', { loose: true }],
-      ['@babel/plugin-proposal-private-property-in-object', { loose: true }]
+      // ['@babel/plugin-proposal-private-methods', { loose: true }]
+      // ['@babel/plugin-proposal-private-property-in-object', { loose: true }]
     ]
   }
 }

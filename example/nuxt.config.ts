@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { NuxtOptions } from '@nuxt/types'
-import DotEnv from 'dotenv'
+import { config } from 'dotenv'
 import {
   axiosConfig,
   buildConfg,
@@ -11,7 +11,7 @@ import {
   toastConfig,
   vuetifyConfig
 } from './src/configs/index'
-DotEnv.config({ path: './.env' })
+config({ path: './.env' })
 
 export default {
   target: 'static',
@@ -22,6 +22,10 @@ export default {
       accountBaseURL: process.env.ACCOUNT_BASE_URL,
       baseURL: process.env.API_ENDPOINT,
       xTenantId: process.env.X_TENTANT_ID || 'wellcare-plugin'
+    },
+    stringee: {
+      secret: process.env.STRINGEE_SECRET,
+      iss: process.env.STRINGEE_ISS
     }
   },
   srcDir: process.cwd() + '/src/',
@@ -79,7 +83,6 @@ export default {
   eslint: {
     fix: true
   },
-
   // https://github.com/nuxt-community/stylelint-module
   stylelint: {
     fix: true
