@@ -18,6 +18,8 @@ npx cap sync
 * [`StringeeCall(...)`](#stringeecall)
 * [`StringeeReject(...)`](#stringeereject)
 * [`StringeeHangup(...)`](#stringeehangup)
+* [`mute()`](#mute)
+* [`unmute()`](#unmute)
 * [`addListener('onConnectionConnected' | 'onConnectionDisconnected', ...)`](#addlisteneronconnectionconnected--onconnectiondisconnected)
 * [`addListener('onConnectionError', ...)`](#addlisteneronconnectionerror)
 * [`addListener('onRequestNewToken', ...)`](#addlisteneronrequestnewtoken)
@@ -25,6 +27,7 @@ npx cap sync
 * [`addListener('exception', ...)`](#addlistenerexception)
 * [`addListener('onStringeeCallEvent', ...)`](#addlisteneronstringeecallevent)
 * [`addListener('onAuthenticated', ...)`](#addlisteneronauthenticated)
+* [`addListener('onStringeeDidHangup', ...)`](#addlisteneronstringeedidhangup)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 
@@ -100,6 +103,24 @@ StringeeHangup(options: any) => Promise<void>
 | Param         | Type             |
 | ------------- | ---------------- |
 | **`options`** | <code>any</code> |
+
+--------------------
+
+
+### mute()
+
+```typescript
+mute() => Promise<void>
+```
+
+--------------------
+
+
+### unmute()
+
+```typescript
+unmute() => Promise<void>
+```
 
 --------------------
 
@@ -209,6 +230,22 @@ addListener(eventName: 'onAuthenticated', listenerFunc: (data: any) => void) => 
 | Param              | Type                                |
 | ------------------ | ----------------------------------- |
 | **`eventName`**    | <code>'onAuthenticated'</code>      |
+| **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### addListener('onStringeeDidHangup', ...)
+
+```typescript
+addListener(eventName: 'onStringeeDidHangup', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                |
+| ------------------ | ----------------------------------- |
+| **`eventName`**    | <code>'onStringeeDidHangup'</code>  |
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>

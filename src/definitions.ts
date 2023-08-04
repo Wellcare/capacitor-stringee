@@ -64,6 +64,11 @@ export interface CapacitorStringeePlugin {
     listenerFunc: (data: any) => void
   ): Promise<PluginListenerHandle> & PluginListenerHandle
 
+  addListener(
+    eventName: 'onStringeeDidHangup',
+    listenerFunc: (data: any) => void
+  ): Promise<PluginListenerHandle> & PluginListenerHandle
+
   /**
    * Removes all listeners
    */
