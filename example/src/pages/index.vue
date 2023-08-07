@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-container>
+      <p>Stringee version 2.0</p>
       <w-text-field-copy v-model="token" label="token"></w-text-field-copy>
       <v-btn @click="connect">Connect</v-btn>
       <v-text-field v-model="callFrom" label="call from"></v-text-field>
@@ -23,10 +24,10 @@ export default defineComponent({
     const { log } = useLog()
     // const { token } = useStringee()
     const token = ref(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTEwMzQ5MDU0MjQiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkxMTIxMzA1NDI0LCJ1c2VySWQiOiIzODk1MjIiLCJpYXQiOjE2OTEwMzQ5MDV9.fZgUccFDJnhlPecIl9gQEzbYoSD7f8sdDQnkkthfov8'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTEzOTY3MDY0NjgiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkyNDgzMTA2MDAwLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTEzOTY3MDZ9.J7xpGuL_nGWlVgnMpr1e26f1a3JySyqtGIilkRAZD78'
     )
-    const callFrom = ref('389522')
-    const callTo = ref('user-6479ba22066d6c867be4558a')
+    const callFrom = ref('387283')
+    const callTo = ref('user-64c1c7c8f3e1c16f553aa42b')
     const status = ref('')
     const isAuth = ref(true)
     const StringeePlugin = CapacitorStringee
