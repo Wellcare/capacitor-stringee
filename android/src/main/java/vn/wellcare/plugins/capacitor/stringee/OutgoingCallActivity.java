@@ -33,6 +33,14 @@ import vn.wellcare.plugins.capacitor.stringee.R.drawable;
 import vn.wellcare.plugins.capacitor.stringee.R.id;
 import vn.wellcare.plugins.capacitor.stringee.R.layout;
 
+class StringeeStatusListener extends com.stringee.listener.StatusListener {
+
+  @Override
+  public void onSuccess() {
+    Log.d("Stringee", "status: success");
+  }
+}
+
 public class OutgoingCallActivity
   extends AppCompatActivity
   implements View.OnClickListener {
@@ -387,7 +395,7 @@ public class OutgoingCallActivity
         }
       );
 
-      stringeeCall.makeCall();
+      stringeeCall.makeCall(new StringeeStatusListener());
       //return stringeeCall;
     } catch (Exception e) {
       Log.d(Common.TAG, "ERROR: " + e.getMessage());
@@ -461,12 +469,12 @@ public class OutgoingCallActivity
     super.onDestroy();
 
     timer.cancel();
-    stringeeCall.hangup();
+    stringeeCall.hangup(new StringeeStatusListener());
     Common.client.disconnect();
   }
 
   private void endCall() {
-    stringeeCall.hangup();
+    stringeeCall.hangup(new StringeeStatusListener());
     Common.client.disconnect();
     dismissLayout();
   }

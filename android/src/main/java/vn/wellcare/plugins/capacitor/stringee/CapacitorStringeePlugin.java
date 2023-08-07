@@ -29,7 +29,6 @@ public class CapacitorStringeePlugin extends Plugin {
     String token = call.getString("token");
     // issue 1
     // String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2ODM2ODcwMzA4MDgiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjgzNzczNDMwODA4LCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2ODM2ODcwMzB9.LHTymQDrGSwTKSAkZfddq-w5S_7Y0M8nAbDjr3jasIo";
-    Log.d(Common.TAG, "StringeeConnect : " + token);
 
     if (token == null || token.isEmpty()) {
       call.reject("Token is missing or empty");
@@ -155,11 +154,13 @@ public class CapacitorStringeePlugin extends Plugin {
       // Connection failed, return error result
       call.reject("Unable to connect to Stringee server");
     }
+    Log.d(Common.TAG, "StringeeConnect : " + token);
     Common.client.connect(token);
   }
 
   @PluginMethod
   public void StringeeCall(PluginCall call) {
+    if (Common.client == null || Common.client.isConnected() == false) return;
     Log.d(Common.TAG, "StringeeCall");
     String from = call.getString("from");
     String to = call.getString("to");
