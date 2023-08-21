@@ -9,12 +9,14 @@ import UIKit
 import MediaPlayer
 
 class CallingViewController: UIViewController {
-
+    private var pipWidth: CGFloat {
+        return  170.0 * UIScreen.main.bounds.width / 384.0
+    }
     @IBOutlet weak var ivDisplayImage: UIImageView!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var lbStatus: UILabel!
     @IBOutlet weak var ivQuality: UIImageView!
-    @IBOutlet weak var btMute: UIButton!    
+    @IBOutlet weak var btMute: UIButton!
     @IBOutlet weak var btSpeaker: UIButton!
     @IBOutlet weak var btEnd: UIButton!
     @IBOutlet weak var btReject: UIButton!
@@ -23,6 +25,31 @@ class CallingViewController: UIViewController {
     @IBOutlet weak var remoteView: UIView!
     @IBOutlet weak var localView: UIView!
 
+    @IBOutlet weak var containerView: UIView!
+    
+    @IBOutlet weak var backButton: UIButton!
+    var trayOriginalCenter: CGPoint = .zero
+
+    private lazy var pipContainerView: AudioCallPipView = {
+        let view = AudioCallPipView()
+        view.backgroundColor = UIColor.blue
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    private lazy var pandGesture: UIPanGestureRecognizer = {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+
+        return panGesture
+    }()
+    
+    private lazy var tapGesture: UITapGestureRecognizer = {
+        let panGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+
+        return panGesture
+    }()
+    
+    
     var callControl: CallControl!
     var call: StringeeCall!
     var stringeeClient: StringeeClient?
@@ -108,6 +135,18 @@ class CallingViewController: UIViewController {
             airplayRouteButton = mpVolumeView.subviews.filter { $0 is UIButton }.first as? UIButton
         }
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let path = UIBezierPath(roundedRect:CGRect(origin: .zero, size: CGSize(width: pipWidth, height: 52)),
+                                byRoundingCorners:[.topLeft, .bottomLeft],
+                                cornerRadii: CGSize(width: 26, height:  26))
+        
+        let maskLayer = CAShapeLayer()
+        
+        maskLayer.path = path.cgPath
+        pipContainerView.layer.mask = maskLayer
+    }
 
     // MARK: - Outlet Actions
 
@@ -165,6 +204,106 @@ class CallingViewController: UIViewController {
         }
     }
 
+    @IBAction func tappedBackButton(_ sender: Any) {
+        enterPIP()
+    }
+
+    func enterPIP() {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.enterPIP()
+            }
+            return
+        }
+        
+        containerView.isHidden = true
+        backButton.isHidden = true
+        localView.isHidden = true
+        remoteView.isHidden = true
+        self.view.backgroundColor = .clear
+        self.view.frame = CGRect(origin: CGPoint(x: UIScreen.main.bounds.width - pipWidth, y: 50), size: CGSize(width: pipWidth, height: 52))
+        self.view.layer.cornerRadius = 5
+        self.view.clipsToBounds = true
+        self.view.addSubview(pipContainerView)
+        pipContainerView.frame = CGRect(origin: .zero, size: CGSize(width: pipWidth, height: 52))
+        pipContainerView.addGestureRecognizer(pandGesture)
+        pipContainerView.addGestureRecognizer(tapGesture)
+
+    }
+    
+    func exitPIP() {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.exitPIP()
+            }
+            return
+        }
+        backButton.isHidden = false
+        containerView.isHidden = false
+        localView.isHidden = false
+        remoteView.isHidden = false
+        
+        self.view.backgroundColor = .black
+        self.view.frame = UIScreen.main.bounds
+        self.view.layer.cornerRadius = 0
+        pipContainerView.removeFromSuperview()
+        view.removeGestureRecognizer(pandGesture)
+        view.removeGestureRecognizer(tapGesture)
+
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        exitPIP()
+    }
+    
+    @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+        var translation = sender.translation(in: self.view)
+        var velocity = sender.velocity(in: self.view)
+        let minimizedWidth = 190.0 * UIScreen.main.bounds.width / 384.0
+
+        if sender.state == .began {
+            trayOriginalCenter = self.view.center
+            
+        } else if sender.state == .changed {
+            
+            var newOffsetY = trayOriginalCenter.y + translation.y
+            var newOffsetX = trayOriginalCenter.x + translation.x
+
+            newOffsetX = max(pipWidth/2, newOffsetX)
+            newOffsetX = min(UIScreen.main.bounds.width -  pipWidth/2, newOffsetX)
+
+            
+            newOffsetY = max(pipWidth/2, newOffsetY)
+            newOffsetY = min(UIScreen.main.bounds.height - pipWidth/2, newOffsetY)
+
+            self.view.center = CGPoint(x: self.view.center.x, y: newOffsetY)
+            
+        } else if sender.state == .ended {
+            debugPrint("[capacitor-agora] hai handlePan velocity \(velocity.y)")
+            let speed: CGFloat = velocity.y / 500
+            if abs(speed) > 1 {
+                animatePipView(speed: speed)
+            }
+        }
+        
+        func animatePipView(speed: CGFloat) {
+            let deltaY: CGFloat = (UIScreen.main.bounds.height / 6) * speed
+
+            var newOffsetY: CGFloat = self.view.center.y
+            newOffsetY = newOffsetY + deltaY
+            newOffsetY = max(pipWidth/2, newOffsetY)
+            newOffsetY = min(UIScreen.main.bounds.height - pipWidth/2, newOffsetY)
+
+            let distance = abs(newOffsetY) - self.view.center.y
+            
+            let duration = (distance / UIScreen.main.bounds.height) * 1.5
+            UIView.animate(withDuration: duration, delay: 0) {[weak self] in
+                guard let self = self else { return }
+                self.view.center = CGPoint(x: self.view.center.x, y: newOffsetY)
+            }
+        }
+    }
+    
     // MARK: - Public Actions
 
     func endCallAndDismis(description: String = "Call ended") {
@@ -173,13 +312,14 @@ class CallingViewController: UIViewController {
             UIApplication.shared.isIdleTimerDisabled = false
             self.view.isUserInteractionEnabled = false
             self.lbStatus.text = description
-
+            self.pipContainerView.updateDuration(with: description)
             // Ngừng timer
             self.stopCallTimer()
             self.stopTimeoutTimer()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
-                self.dismiss(animated: true, completion: nil)
+//                self.dismiss(animated: true, completion: nil)
+                self.view.removeFromSuperview()
                 InstanceManager.shared.callingVC = nil
                 self.stringeeClient?.disconnect()
             })
@@ -240,13 +380,16 @@ class CallingViewController: UIViewController {
                 DispatchQueue.main.async {
                     // Set the downloaded image to the UIImageView instance
                     self.ivDisplayImage.image = image
+                    self.pipContainerView.updateAvatar(with: image)
                 }
             }
             task.resume()
         }
         // Fill data
         self.lbStatus.text = callControl.isIncoming ? "Incoming Call" : "Outgoing Call"
+        self.pipContainerView.updateDuration(with: callControl.isIncoming ? "Incoming Call" : "Outgoing Call")
         self.lbName.text = callControl.displayName
+        self.pipContainerView.updateName(with: callControl.displayName)
         //self.ivDisplayImage.image = UIImage(data: data!)
         updateScreen()
     }
@@ -272,6 +415,7 @@ class CallingViewController: UIViewController {
     @objc private func timeTick(timer: Timer) {
         let timeNow = timeCounter.timeNow()
         self.lbStatus.text = timeNow
+        pipContainerView.updateDuration(with: timeNow)
     }
 
     private func stopCallTimer() {
@@ -315,8 +459,11 @@ extension CallingViewController: StringeeCallDelegate {
             switch signalingState {
             case .calling:
                 self.lbStatus.text = "Calling..."
+                self.pipContainerView.updateDuration(with: "Calling...")
             case .ringing:
                 self.lbStatus.text = "Ringing..."
+                self.pipContainerView.updateDuration(with: "Ringing...")
+
             case .answered:
                 self.callControl.signalingState = .answered
                 self.updateScreen()
@@ -338,6 +485,7 @@ extension CallingViewController: StringeeCallDelegate {
             case .connected:
                 self.callControl.mediaState = mediaState
                 self.lbStatus.text = self.callControl.isIncoming ? "Incoming Call" : "Outgoing Call"
+                self.pipContainerView.updateDuration(with: self.callControl.isIncoming ? "Incoming Call" : "Outgoing Call")
                 self.startCallTimer()
                 
                 // if call's type is video then route audio to speaker
