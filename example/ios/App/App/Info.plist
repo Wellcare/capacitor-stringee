@@ -26,6 +26,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Video calls - what else?</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Video calls - certainly</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -49,9 +53,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Video calls - what else?</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Video calls - certainly</string>
 </dict>
 </plist>
