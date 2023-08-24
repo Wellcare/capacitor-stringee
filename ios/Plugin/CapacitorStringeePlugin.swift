@@ -61,9 +61,11 @@ public class CapacitorStringeePlugin: CAPPlugin {
         DispatchQueue.main.async {
             let topMost = UIApplication.getTopViewController()
             let callingVC = CallingViewController.init(control: callControl, call: nil, stringeeClient: self.stringeeClient)
-            callingVC.modalPresentationStyle = .fullScreen
+//            callingVC.modalPresentationStyle = .fullScreen
             self.callingVC = callingVC
-            topMost?.present(callingVC, animated: true)
+//            topMost?.present(callingVC, animated: true)
+//            callingVC.view.frame = UIScreen.main.bounds
+            topMost?.view.addSubview(callingVC.view)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {[weak self] in
                 // Do stuff
             }
@@ -130,7 +132,8 @@ extension CapacitorStringeePlugin: StringeeIncomingCallDelegate {
             let callingVC = CallingViewController.init(control: callControl, call: nil, stringeeClient: self.stringeeClient)
             callingVC.modalPresentationStyle = .fullScreen
             self.callingVC = callingVC
-            topMost?.present(callingVC, animated: true)
+//            topMost?.present(callingVC, animated: true)
+            topMost?.view.addSubview(callingVC.view)
         }
     }
 }
