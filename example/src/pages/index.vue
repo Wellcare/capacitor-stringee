@@ -6,7 +6,9 @@
       <v-btn @click="connect">Connect</v-btn>
       <v-text-field v-model="callFrom" label="call from"></v-text-field>
       <v-text-field v-model="callTo" label="call to"></v-text-field>
-      <v-btn :disabled="!isAuth" color="primary" @click="call">Call</v-btn>
+      <v-btn :disabled="!isAuth" color="primary" @click="call"
+        >Call (with PIP mode)</v-btn
+      >
       <v-btn :disabled="!isAuth" color="error" @click="reject">Reject</v-btn>
       <p>Status: {{ status }}</p>
       <w-debug-log />
@@ -24,10 +26,10 @@ export default defineComponent({
     const { log } = useLog()
     // const { token } = useStringee()
     const token = ref(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTEzOTY3MDY0NjgiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkyNDgzMTA2MDAwLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTEzOTY3MDZ9.J7xpGuL_nGWlVgnMpr1e26f1a3JySyqtGIilkRAZD78'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTI5MzEwNTkxMjMiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkzMDE3NDU5MTIzLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTI5MzEwNTl9.HDISPjqKQB09sIYvgWEg3dWI7IhRUj00Dm11qP5agFg'
     )
     const callFrom = ref('387283')
-    const callTo = ref('user-64c1c7c8f3e1c16f553aa42b')
+    const callTo = ref('user-5acd7d80d6eddf51bc1fdb82')
     const status = ref('')
     const isAuth = ref(true)
     const StringeePlugin = CapacitorStringee
