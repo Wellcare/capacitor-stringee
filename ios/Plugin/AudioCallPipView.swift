@@ -118,6 +118,6 @@ class AudioCallPipView: UIView {
     }
     
     func updateName(with text: String) {
-        nameLabel.text = text + "abc lakjfl aldkfjla dfjlakdf lkadjf vcvc dfadf dfdf "
+        nameLabel.text = text
     }
 }
