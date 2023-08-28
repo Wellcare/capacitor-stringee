@@ -18,8 +18,9 @@ class AudioCallPipView: UIView {
     private lazy var durationLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
-        label.textColor = .white
-        label.textAlignment = .center
+        label.textColor = .lightText
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -27,7 +28,8 @@ class AudioCallPipView: UIView {
         let label = UILabel()
         label.text = "Nguyen Van A"
         label.textColor = .white
-        label.textAlignment = .center
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -40,7 +42,46 @@ class AudioCallPipView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var shadowLayer: CAShapeLayer!
+    var isLayoutSubView: Bool = false
+       override func layoutSubviews() {
+           super.layoutSubviews()
+           guard !isLayoutSubView else { return }
+           isLayoutSubView = true
+           layer.masksToBounds = false
+           let path = UIBezierPath(roundedRect:CGRect(origin: .zero, size: CGSize(width: self.frame.width, height: 52)),
+                                   byRoundingCorners:[.topLeft, .bottomLeft],
+                                   cornerRadii: CGSize(width: 26, height:  26))
+
+           layer.shadowColor = UIColor.black.cgColor
+           layer.shadowPath = path.cgPath
+           layer.shadowOffset = CGSize(width: 5.0, height: 3.0)
+           layer.shadowOpacity = 0.5
+           layer.shadowRadius = 4.0
+           
+           layer.cornerRadius = 26
+           layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+
+       }
+    
     func setupUIs() {
+        
+        if shadowLayer == nil {
+            shadowLayer = CAShapeLayer()
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 12).cgPath
+            shadowLayer.fillColor = UIColor.white.cgColor
+
+            shadowLayer.shadowColor = UIColor.darkGray.cgColor
+            shadowLayer.shadowPath = shadowLayer.path
+            shadowLayer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+            shadowLayer.shadowOpacity = 0.8
+            shadowLayer.shadowRadius = 2
+
+            layer.insertSublayer(shadowLayer, at: 0)
+            //layer.insertSublayer(shadowLayer, below: nil) // also works
+        }
+
+        
         [avatarImageView, durationLabel, nameLabel].forEach({addSubview($0)})
         [avatarImageView, durationLabel, nameLabel].forEach({$0.translatesAutoresizingMaskIntoConstraints = false})
         
@@ -51,9 +92,12 @@ class AudioCallPipView: UIView {
             avatarImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             nameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: 10),
+            nameLabel.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -4),
 
             durationLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor),
             durationLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: 10),
+            durationLabel.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -4)
+
             
         ]
         
@@ -74,6 +118,6 @@ class AudioCallPipView: UIView {
     }
     
     func updateName(with text: String) {
-        nameLabel.text = text
+        nameLabel.text = text + "abc lakjfl aldkfjla dfjlakdf lkadjf vcvc dfadf dfdf "
     }
 }

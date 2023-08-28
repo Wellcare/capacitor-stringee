@@ -32,8 +32,7 @@ class CallingViewController: UIViewController {
 
     private lazy var pipContainerView: AudioCallPipView = {
         let view = AudioCallPipView()
-        view.backgroundColor = UIColor.blue
-        view.clipsToBounds = true
+        view.backgroundColor = UIColor(named: "primaryColor")
         return view
     }()
     
@@ -138,14 +137,7 @@ class CallingViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let path = UIBezierPath(roundedRect:CGRect(origin: .zero, size: CGSize(width: pipWidth, height: 52)),
-                                byRoundingCorners:[.topLeft, .bottomLeft],
-                                cornerRadii: CGSize(width: 26, height:  26))
-        
-        let maskLayer = CAShapeLayer()
-        
-        maskLayer.path = path.cgPath
-        pipContainerView.layer.mask = maskLayer
+       
     }
 
     // MARK: - Outlet Actions
@@ -221,11 +213,11 @@ class CallingViewController: UIViewController {
         localView.isHidden = true
         remoteView.isHidden = true
         self.view.backgroundColor = .clear
-        self.view.frame = CGRect(origin: CGPoint(x: UIScreen.main.bounds.width - pipWidth, y: 50), size: CGSize(width: pipWidth, height: 52))
-        self.view.layer.cornerRadius = 5
-        self.view.clipsToBounds = true
+        self.view.frame = CGRect(origin: CGPoint(x: UIScreen.main.bounds.width - pipWidth - 10, y: 72), size: CGSize(width: pipWidth, height: 72))
+        self.view.layer.cornerRadius = 0
+        self.view.clipsToBounds = false
         self.view.addSubview(pipContainerView)
-        pipContainerView.frame = CGRect(origin: .zero, size: CGSize(width: pipWidth, height: 52))
+        pipContainerView.frame = CGRect(origin: CGPoint(x: 10, y: 10), size: CGSize(width: pipWidth, height: 52))
         pipContainerView.addGestureRecognizer(pandGesture)
         pipContainerView.addGestureRecognizer(tapGesture)
 
