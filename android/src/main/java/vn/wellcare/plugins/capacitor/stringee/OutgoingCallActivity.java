@@ -439,7 +439,8 @@ public class OutgoingCallActivity
 
   private void switchToPIPmode() {
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      Rational rational = new Rational(16, 9);
+      // 16, 9
+      Rational rational = new Rational(16, 10);
       enterPictureInPictureMode(
         new PictureInPictureParams.Builder().setAspectRatio(rational).build()
       );
