@@ -1,6 +1,6 @@
 {
   "name": "@wellcare/capacitor-stringee",
-  "version": "0.0.1",
+  "version": "0.1.10",
   "description": "Capacitor Plugin Stringee",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -22,7 +22,7 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
-  },  
+  },
   "bugs": {
     "url": "https://github.com/wellcare/capacitor-stringee/issues"
   },
