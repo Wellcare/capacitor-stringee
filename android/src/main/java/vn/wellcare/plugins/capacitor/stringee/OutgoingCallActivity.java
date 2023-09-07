@@ -3,6 +3,10 @@ package vn.wellcare.plugins.capacitor.stringee;
 
 import android.Manifest.permission;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PictureInPictureParams;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -60,7 +65,7 @@ class StringeeStatusListener extends com.stringee.listener.StatusListener {
 public class OutgoingCallActivity
   extends AppCompatActivity
   implements View.OnClickListener {
-
+  static final String CHANNEL_ID = "outgoingcall_service_channel";
   private FrameLayout vRemote;
   private TextView tvState, vName, textPipMode;
   private ImageButton btnMute;
@@ -104,6 +109,32 @@ public class OutgoingCallActivity
     Log.d(Common.TAG, "on going call from: " + from);
     Log.d(Common.TAG, "on going call to: " + to);
     startStringeeCall(from, to, false);
+    startService();
+  }
+
+  private void startService(){
+    NotificationManager manager = null;
+    if (VERSION.SDK_INT >= VERSION_CODES.M) {
+      manager = getSystemService(NotificationManager.class);
+    }
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      NotificationChannel channel = new NotificationChannel(
+              CHANNEL_ID,
+              "Channel",
+              NotificationManager.IMPORTANCE_HIGH
+      );
+      manager.createNotificationChannel(channel);
+    }
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      Intent serviceIntent = new Intent(this, OutGoingCallService.class);
+      serviceIntent.putExtra("name", this.name);
+      startForegroundService(serviceIntent);
+    }
+  }
+
+  private void stopService(){
+    Intent serviceIntent = new Intent(this, OutGoingCallService.class);
+    stopService(serviceIntent);
   }
 
   public void startStringeeCall(String from, String to, Boolean isVideoCall) {
@@ -224,7 +255,6 @@ public class OutgoingCallActivity
   /**
    * Initialize the UI elements of the outgoing call activity.
    */
-  @SuppressLint("WrongViewCast")
   private void initView() {
     vRemote = findViewById(id.v_remote);
 
@@ -513,22 +543,33 @@ public class OutgoingCallActivity
   @Override
   public void onDestroy() {
     super.onDestroy();
-
+    Log.d(Common.TAG, "app closed");
     timer.cancel();
-    // ver 1.9.0
-    //     stringeeCall.hangup();
-    // ver 2.0
-    stringeeCall.hangup(statusListener);
-    Common.client.disconnect();
+    try{
+      // ver 1.9.0
+      //     stringeeCall.hangup();
+      // ver 2.0
+      stringeeCall.hangup(statusListener);
+      if(Common.client != null && Common.client.isConnected()) Common.client.disconnect();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private void endCall() {
     // ver 1.9.0
     //    stringeeCall.hangup();
     // ver 2.0
-    stringeeCall.hangup(statusListener);
-    Common.client.disconnect();
-    dismissLayout();
+    try {
+      stringeeCall.hangup(statusListener);
+      if(Common.client != null && Common.client.isConnected()) Common.client.disconnect();
+      stopService();
+      dismissLayout();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private void dismissLayout() {
@@ -607,7 +648,7 @@ public class OutgoingCallActivity
   ) {
     super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
 
-    Log.d(Common.TAG, String.valueOf(isInPictureInPictureMode));
+    Log.d(Common.TAG, String.valueOf(isInPictureInPictureMode) + " line 614");
     if (isInPictureInPictureMode) {
       // Hide the full-screen UI (controls, etc.) while in picture-in-picture mode.
       //      Log.d(Common.TAG, "enter PIP mode");
@@ -635,5 +676,11 @@ public class OutgoingCallActivity
         switchToPIPmode();
       }
     }
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    Log.d(Common.TAG, "app closed");
   }
 }

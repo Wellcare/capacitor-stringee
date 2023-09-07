@@ -26,10 +26,10 @@ export default defineComponent({
     const { log } = useLog()
     // const { token } = useStringee()
     const token = ref(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTI5MzEwNTkxMjMiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkzMDE3NDU5MTIzLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTI5MzEwNTl9.HDISPjqKQB09sIYvgWEg3dWI7IhRUj00Dm11qP5agFg'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTQwNjEzMDM5ODEiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjk0MTQ3NzAzOTgxLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTQwNjEzMDN9.eVl54BLT-PGb3-7P-JnZ6UJSd2OmEANXg3Ah5QlcN6g'
     )
     const callFrom = ref('387283')
-    const callTo = ref('user-5acd7d80d6eddf51bc1fdb82')
+    const callTo = ref('user-64c1c7c8f3e1c16f553aa42b')
     const status = ref('')
     const isAuth = ref(true)
     const StringeePlugin = CapacitorStringee

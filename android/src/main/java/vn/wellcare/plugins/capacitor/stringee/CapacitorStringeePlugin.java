@@ -27,19 +27,12 @@ public class CapacitorStringeePlugin extends Plugin {
   @PluginMethod
   public void StringeeConnect(PluginCall call) {
     String token = call.getString("token");
-    // issue 1
-    // String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2ODM2ODcwMzA4MDgiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjgzNzczNDMwODA4LCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2ODM2ODcwMzB9.LHTymQDrGSwTKSAkZfddq-w5S_7Y0M8nAbDjr3jasIo";
 
     if (token == null || token.isEmpty()) {
       call.reject("Token is missing or empty");
       return;
     }
     Context context = getContext();
-    // Create a StringeeConnectionActivity object with the current context
-    // StringeeConnectionActivity connectionActivity = new StringeeConnectionActivity(context);
-
-    // Initialize and connect the StringeeClient with the given token
-    // StringeeClient client = connectionActivity.initAndConnectStringee(token);
 
     if (Common.client == null) {
       // Connection succeeded, return success result
@@ -160,7 +153,7 @@ public class CapacitorStringeePlugin extends Plugin {
 
   @PluginMethod
   public void StringeeCall(PluginCall call) {
-    if (Common.client == null || Common.client.isConnected() == false) return;
+    if (Common.client == null || !Common.client.isConnected()) return;
     Log.d(Common.TAG, "StringeeCall");
     String from = call.getString("from");
     String to = call.getString("to");
