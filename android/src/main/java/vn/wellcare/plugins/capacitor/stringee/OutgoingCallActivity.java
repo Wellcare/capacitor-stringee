@@ -126,14 +126,14 @@ public class OutgoingCallActivity
       manager.createNotificationChannel(channel);
     }
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      Intent serviceIntent = new Intent(this, OutGoingCallService.class);
+      Intent serviceIntent = new Intent(this, OutgoingCallService.class);
       serviceIntent.putExtra("name", this.name);
       startForegroundService(serviceIntent);
     }
   }
 
   private void stopService(){
-    Intent serviceIntent = new Intent(this, OutGoingCallService.class);
+    Intent serviceIntent = new Intent(this, OutgoingCallService.class);
     stopService(serviceIntent);
   }
 
@@ -629,6 +629,11 @@ public class OutgoingCallActivity
     btnMute.setVisibility(View.INVISIBLE);
 
     textPipMode.setVisibility(View.VISIBLE);
+    
+    if (audioManager != null) {
+      isSpeaker = true;
+      audioManager.setSpeakerphoneOn(isSpeaker);
+    }
   }
 
   public void setViewInNormalMode() {

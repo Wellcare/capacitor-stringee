@@ -33,7 +33,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".OutGoingCallService"
+            android:name=".OutgoingCallService"
             android:stopWithTask="false"
             ></service>
 
