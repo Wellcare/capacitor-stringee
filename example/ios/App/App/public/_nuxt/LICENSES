@@ -1,6 +1,16 @@
 /*! Capacitor: https://capacitorjs.com/ - MIT License */
 
 
+//! moment.js
+
+//! moment.js locale configuration
+
+
+/*! Capacitor: https://capacitorjs.com/ - MIT License */
+
+//! moment.js
+
+
 /*
 object-assign
 (c) Sindre Sorhus
@@ -13,24 +23,6 @@ object-assign
  * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
  * @license  MIT
  */
-
-
-//! moment.js
-
-//! moment.js locale configuration
-
-
-/*! Capacitor: https://capacitorjs.com/ - MIT License */
-
-
-/**!
- * Sortable 1.10.2
- * @author	RubaXa   <trash@rubaxa.org>
- * @author	owenm    <owen23355@gmail.com>
- * @license MIT
- */
-
-//! moment.js
 
 
 //! moment.js locale configuration
@@ -54,6 +46,16 @@ object-assign
  * (c) 2021 Evan You
  * @license MIT
  */
+
+
+/**!
+ * Sortable 1.10.2
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @author	owenm    <owen23355@gmail.com>
+ * @license MIT
+ */
+
+/*! Capacitor: https://capacitorjs.com/ - MIT License */
 
 
 /*!

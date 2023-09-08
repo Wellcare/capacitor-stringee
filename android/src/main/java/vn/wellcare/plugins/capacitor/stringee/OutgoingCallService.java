@@ -10,8 +10,8 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 // docs: https://developer.android.com/guide/components/foreground-services
-public class OutGoingCallService extends Service {
-    public OutGoingCallService() {
+public class OutgoingCallService extends Service {
+    public OutgoingCallService() {
     }
 
     @Override
