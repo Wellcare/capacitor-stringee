@@ -117,10 +117,10 @@
                                 <constraint firstItem="WvZ-YD-MZ0" firstAttribute="top" secondItem="hEh-W0-vkz" secondAttribute="bottom" constant="10" id="mYF-Mp-51c"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calling..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSJ-gX-fez">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calling..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSJ-gX-fez">
                             <rect key="frame" x="177.5" y="291.5" width="59" height="20"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="ZxB-du-kbA"/>
+                                <constraint firstAttribute="height" constant="20" id="9Oy-Ef-69R"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="0.8416898545" colorSpace="calibratedWhite"/>
