@@ -100,6 +100,11 @@ class CallingViewController: UIViewController {
         // Notifications
         NotificationCenter.default.addObserver(self, selector: #selector(CallingViewController.handleSessionRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
 
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(applicationWillTerminate),
+            name: UIApplication.willTerminateNotification,
+            object: nil)
+        
         // UI
         setupUI()
 
@@ -519,6 +524,13 @@ extension CallingViewController: StringeeCallDelegate {
 // MARK: - Handle Audio Output
 
 extension CallingViewController {
+    @objc private func applicationWillTerminate() {
+      // Notification received.
+        
+        debugPrint("applicationWillTerminate")
+        stringeeClient?.disconnect()
+    }
+    
     @objc private func handleSessionRouteChange() {
         DispatchQueue.main.async {
             let route = AVAudioSession.sharedInstance().currentRoute
