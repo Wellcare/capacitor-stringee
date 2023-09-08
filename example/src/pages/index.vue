@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <p>Stringee version 2.0</p>
-      <w-text-field-copy v-model="token" label="token"></w-text-field-copy>
+      <v-text-field v-model="token" label="token" />
       <v-btn @click="connect">Connect</v-btn>
       <v-text-field v-model="callFrom" label="call from"></v-text-field>
       <v-text-field v-model="callTo" label="call to"></v-text-field>
