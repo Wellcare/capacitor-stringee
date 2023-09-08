@@ -2,11 +2,14 @@
   <div>
     <v-container>
       <p>Stringee version 2.0</p>
+      <!-- <w-text-field-copy v-model="token" label="token"></w-text-field-copy> -->
       <v-text-field v-model="token" label="token" />
       <v-btn @click="connect">Connect</v-btn>
       <v-text-field v-model="callFrom" label="call from"></v-text-field>
       <v-text-field v-model="callTo" label="call to"></v-text-field>
-      <v-btn :disabled="!isAuth" color="primary" @click="call">Call</v-btn>
+      <v-btn :disabled="!isAuth" color="primary" @click="call"
+        >Call (with PIP mode)</v-btn
+      >
       <v-btn :disabled="!isAuth" color="error" @click="reject">Reject</v-btn>
       <p>Status: {{ status }}</p>
       <w-debug-log />
@@ -24,7 +27,7 @@ export default defineComponent({
     const { log } = useLog()
     // const { token } = useStringee()
     const token = ref(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTEzOTY3MDY0NjgiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjkyNDgzMTA2MDAwLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTEzOTY3MDZ9.J7xpGuL_nGWlVgnMpr1e26f1a3JySyqtGIilkRAZD78'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTQwNjEzMDM5ODEiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjk0MTQ3NzAzOTgxLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTQwNjEzMDN9.eVl54BLT-PGb3-7P-JnZ6UJSd2OmEANXg3Ah5QlcN6g'
     )
     const callFrom = ref('387283')
     const callTo = ref('user-64c1c7c8f3e1c16f553aa42b')

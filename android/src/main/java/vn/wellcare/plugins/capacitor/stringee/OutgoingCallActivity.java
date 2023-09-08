@@ -2,12 +2,20 @@
 package vn.wellcare.plugins.capacitor.stringee;
 
 import android.Manifest.permission;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PictureInPictureParams;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Rational;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
@@ -15,15 +23,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import com.squareup.picasso.Picasso;
 import com.stringee.call.StringeeCall;
 import com.stringee.call.StringeeCall.MediaState;
 import com.stringee.call.StringeeCall.SignalingState;
 import com.stringee.call.StringeeCall.StringeeCallListener;
 import com.stringee.common.StringeeAudioManager;
+import com.stringee.exception.StringeeError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -37,20 +48,31 @@ class StringeeStatusListener extends com.stringee.listener.StatusListener {
 
   @Override
   public void onSuccess() {
-    Log.d("Stringee", "status: success");
+    Log.d(Common.TAG, "status: success");
+  }
+
+  @Override
+  public void onError(StringeeError errorInfo) {
+    Log.d(Common.TAG, "error status: " + errorInfo.getMessage());
+  }
+
+  @Override
+  public void onProgress(int percent) {
+    Log.d(Common.TAG, "on status progress" + percent);
   }
 }
 
 public class OutgoingCallActivity
   extends AppCompatActivity
   implements View.OnClickListener {
-
+  static final String CHANNEL_ID = "outgoingcall_service_channel";
   private FrameLayout vRemote;
-  private TextView tvState, vName;
+  private TextView tvState, vName, textPipMode;
   private ImageButton btnMute;
   private ImageButton btnSpeaker;
   private ImageButton btnVideo;
   private ImageButton btnEnd;
+  private ImageButton btnBack;
   private View vControl;
 
   private ImageView vAvatar;
@@ -70,6 +92,8 @@ public class OutgoingCallActivity
   private Timer timer = new Timer();
   private int seconds = 0;
 
+  private StringeeStatusListener statusListener = new StringeeStatusListener();
+
   //  public interface StringeeCallCallback {
   //    void onStringeeCallCreated(StringeeCall stringeeCall);
   //  }
@@ -85,6 +109,32 @@ public class OutgoingCallActivity
     Log.d(Common.TAG, "on going call from: " + from);
     Log.d(Common.TAG, "on going call to: " + to);
     startStringeeCall(from, to, false);
+    startService();
+  }
+
+  private void startService(){
+    NotificationManager manager = null;
+    if (VERSION.SDK_INT >= VERSION_CODES.M) {
+      manager = getSystemService(NotificationManager.class);
+    }
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      NotificationChannel channel = new NotificationChannel(
+              CHANNEL_ID,
+              "Channel",
+              NotificationManager.IMPORTANCE_HIGH
+      );
+      manager.createNotificationChannel(channel);
+    }
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      Intent serviceIntent = new Intent(this, OutgoingCallService.class);
+      serviceIntent.putExtra("name", this.name);
+      startForegroundService(serviceIntent);
+    }
+  }
+
+  private void stopService(){
+    Intent serviceIntent = new Intent(this, OutgoingCallService.class);
+    stopService(serviceIntent);
   }
 
   public void startStringeeCall(String from, String to, Boolean isVideoCall) {
@@ -212,6 +262,8 @@ public class OutgoingCallActivity
 
     tvState = findViewById(id.tv_state);
 
+    textPipMode = findViewById(id.text_pip_mode);
+
     vName = findViewById(id.v_name);
 
     vAvatar = findViewById(id.v_avatar);
@@ -225,6 +277,8 @@ public class OutgoingCallActivity
     // btnSwitch.setOnClickListener(this);
     btnEnd = findViewById(id.btn_end);
     btnEnd.setOnClickListener(this);
+    btnBack = findViewById(id.btn_back);
+    btnBack.setOnClickListener(this);
 
     isSpeaker = false;
     vName.setText(name);
@@ -250,6 +304,7 @@ public class OutgoingCallActivity
   private void makeCall() {
     //create audio manager to control audio device
     Log.d(Common.TAG, "make call 246");
+    Log.d(Common.TAG, "Stringee connected: " + Common.client.isConnected());
     audioManager = StringeeAudioManager.create(OutgoingCallActivity.this);
     audioManager.start(
       (selectedAudioDevice, availableAudioDevices) ->
@@ -288,9 +343,11 @@ public class OutgoingCallActivity
                 switch (signalingState) {
                   case CALLING:
                     tvState.setText("Outgoing call");
+                    textPipMode.setText("Outgoing call");
                     break;
                   case RINGING:
                     tvState.setText("Ringing");
+                    textPipMode.setText("Ringing");
                     break;
                   case ANSWERED:
                     tvState.setText("Starting");
@@ -301,10 +358,12 @@ public class OutgoingCallActivity
                     break;
                   case BUSY:
                     tvState.setText("Busy");
+                    textPipMode.setText("Busy");
                     endCall();
                     break;
                   case ENDED:
                     tvState.setText("Ended");
+                    textPipMode.setText("Ended");
                     endCall();
                     break;
                 }
@@ -394,12 +453,27 @@ public class OutgoingCallActivity
           }
         }
       );
-
-      stringeeCall.makeCall(new StringeeStatusListener());
+      // ver 1.9.3
+      //      stringeeCall.makeCall();
+      // ver 2.0
+      Log.d(Common.TAG, "stringee make call line 410");
+      stringeeCall.makeCall(statusListener);
+      //      Log.d(Common.TAG, "ringing ...");
+      //      stringeeCall.ringing(statusListener);
       //return stringeeCall;
     } catch (Exception e) {
       Log.d(Common.TAG, "ERROR: " + e.getMessage());
       return;
+    }
+  }
+
+  private void switchToPIPmode() {
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      // 16, 9
+      Rational rational = new Rational(16, 10);
+      enterPictureInPictureMode(
+        new PictureInPictureParams.Builder().setAspectRatio(rational).build()
+      );
     }
   }
 
@@ -433,6 +507,8 @@ public class OutgoingCallActivity
       if (stringeeCall != null) {
         stringeeCall.enableVideo(isVideo);
       }
+    } else if (id == R.id.btn_back) {
+      switchToPIPmode();
     }
     //        else if (id == R.id.btn_switch) {
     //            if (stringeeCall != null) {
@@ -467,16 +543,33 @@ public class OutgoingCallActivity
   @Override
   public void onDestroy() {
     super.onDestroy();
-
+    Log.d(Common.TAG, "app closed");
     timer.cancel();
-    stringeeCall.hangup(new StringeeStatusListener());
-    Common.client.disconnect();
+    try{
+      // ver 1.9.0
+      //     stringeeCall.hangup();
+      // ver 2.0
+      stringeeCall.hangup(statusListener);
+      if(Common.client != null && Common.client.isConnected()) Common.client.disconnect();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private void endCall() {
-    stringeeCall.hangup(new StringeeStatusListener());
-    Common.client.disconnect();
-    dismissLayout();
+    // ver 1.9.0
+    //    stringeeCall.hangup();
+    // ver 2.0
+    try {
+      stringeeCall.hangup(statusListener);
+      if(Common.client != null && Common.client.isConnected()) Common.client.disconnect();
+      stopService();
+      dismissLayout();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private void dismissLayout() {
@@ -520,10 +613,79 @@ public class OutgoingCallActivity
             ":" + String.valueOf(second);
 
           tvState.setText(time);
+          textPipMode.setText(time);
         }
       },
       0,
       1000
     );
+  }
+
+  public void setViewInPIPmode() {
+    btnBack.setVisibility(View.INVISIBLE);
+    vAvatar.setVisibility(View.INVISIBLE);
+    btnEnd.setVisibility(View.INVISIBLE);
+    btnSpeaker.setVisibility(View.INVISIBLE);
+    btnMute.setVisibility(View.INVISIBLE);
+
+    textPipMode.setVisibility(View.VISIBLE);
+    
+    if (audioManager != null) {
+      isSpeaker = true;
+      audioManager.setSpeakerphoneOn(isSpeaker);
+    }
+  }
+
+  public void setViewInNormalMode() {
+    btnBack.setVisibility(View.VISIBLE);
+    vAvatar.setVisibility(View.VISIBLE);
+    btnEnd.setVisibility(View.VISIBLE);
+    btnSpeaker.setVisibility(View.VISIBLE);
+    btnMute.setVisibility(View.VISIBLE);
+
+    textPipMode.setVisibility(View.INVISIBLE);
+  }
+
+  @Override
+  public void onPictureInPictureModeChanged(
+    boolean isInPictureInPictureMode,
+    Configuration newConfig
+  ) {
+    super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
+
+    Log.d(Common.TAG, String.valueOf(isInPictureInPictureMode) + " line 614");
+    if (isInPictureInPictureMode) {
+      // Hide the full-screen UI (controls, etc.) while in picture-in-picture mode.
+      //      Log.d(Common.TAG, "enter PIP mode");
+      setViewInPIPmode();
+    } else {
+      // Restore the full-screen UI.
+      if (getLifecycle().getCurrentState() == Lifecycle.State.CREATED) {
+        //      finishAndRemoveTask();
+        //when user click on Close button of PIP this will trigger, do what you want here
+        setViewInNormalMode();
+        endCall();
+        //        Log.d(Common.TAG, "click close btn");
+      } else if (getLifecycle().getCurrentState() == Lifecycle.State.STARTED) {
+        //when PIP maximize this will trigger
+        //        Log.d(Common.TAG, "click maximum");
+        setViewInNormalMode();
+      }
+    }
+  }
+
+  @Override
+  public void onUserLeaveHint() {
+    if (VERSION.SDK_INT >= VERSION_CODES.N) {
+      if (!isInPictureInPictureMode()) {
+        switchToPIPmode();
+      }
+    }
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    Log.d(Common.TAG, "app closed");
   }
 }
