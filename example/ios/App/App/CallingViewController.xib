@@ -118,7 +118,10 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calling..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSJ-gX-fez">
-                            <rect key="frame" x="177.5" y="291.5" width="59" height="15.5"/>
+                            <rect key="frame" x="177.5" y="291.5" width="59" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="ZxB-du-kbA"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="0.8416898545" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -187,7 +190,7 @@
                         <constraint firstItem="oYs-Pt-AXb" firstAttribute="centerX" secondItem="PDi-UU-Wb6" secondAttribute="centerX" id="erF-hc-JT7"/>
                         <constraint firstItem="SJo-W2-ceo" firstAttribute="height" secondItem="nIR-xU-jiG" secondAttribute="height" id="ht3-Tr-Jmy"/>
                         <constraint firstItem="nIR-xU-jiG" firstAttribute="leading" secondItem="Yim-Ux-Vyh" secondAttribute="trailing" constant="30" id="i9o-uk-TTf"/>
-                        <constraint firstItem="IVv-Dn-v5x" firstAttribute="top" secondItem="XSJ-gX-fez" secondAttribute="bottom" constant="80" id="iOI-Ir-rWX"/>
+                        <constraint firstItem="IVv-Dn-v5x" firstAttribute="top" relation="greaterThanOrEqual" secondItem="XSJ-gX-fez" secondAttribute="bottom" constant="75" id="iOI-Ir-rWX"/>
                         <constraint firstItem="SJo-W2-ceo" firstAttribute="centerY" secondItem="nIR-xU-jiG" secondAttribute="centerY" id="opJ-Df-jV2"/>
                         <constraint firstAttribute="bottom" secondItem="nIR-xU-jiG" secondAttribute="bottom" constant="40" id="pQO-Cc-jjC"/>
                         <constraint firstItem="nIR-xU-jiG" firstAttribute="centerX" secondItem="PDi-UU-Wb6" secondAttribute="centerX" id="q3g-Ea-ehl"/>
