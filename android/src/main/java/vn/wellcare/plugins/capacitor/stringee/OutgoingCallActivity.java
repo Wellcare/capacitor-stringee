@@ -491,15 +491,14 @@ public class OutgoingCallActivity
         stringeeCall.mute(isMute);
       }
     } else if (id == R.id.btn_speaker) {
-      isSpeaker = !isSpeaker;
 //      btnSpeaker.setBackgroundResource(
 //        isSpeaker ? drawable.btn_speaker_on : drawable.btn_speaker_off
 //      );
 //      if (audioManager != null) {
 //        audioManager.setSpeakerphoneOn(isSpeaker);
 //      }
-      if(isSpeaker) setSpeakerOn();
-      else setSpeakerOff();
+      if(isSpeaker) setSpeakerOff();
+      else setSpeakerOn();
     } else if (id == R.id.btn_end) {
       tvState.setText("Ended");
       endCall();
@@ -627,6 +626,11 @@ public class OutgoingCallActivity
 
   private void setSpeakerOn() {
     isSpeaker = true;
+    AudioManager aManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    boolean isBluetoothConnected = aManager.isBluetoothA2dpOn();
+    if(isBluetoothConnected) {
+      audioManager.setBluetoothScoOn(false);
+    }
     if(audioManager != null) audioManager.setSpeakerphoneOn(true);
     btnSpeaker.setBackgroundResource(drawable.btn_speaker_on);
   }
