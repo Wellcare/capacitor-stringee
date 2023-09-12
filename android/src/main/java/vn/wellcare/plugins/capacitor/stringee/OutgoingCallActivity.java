@@ -8,9 +8,11 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PictureInPictureParams;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -489,13 +491,14 @@ public class OutgoingCallActivity
         stringeeCall.mute(isMute);
       }
     } else if (id == R.id.btn_speaker) {
-      isSpeaker = !isSpeaker;
-      btnSpeaker.setBackgroundResource(
-        isSpeaker ? drawable.btn_speaker_on : drawable.btn_speaker_off
-      );
-      if (audioManager != null) {
-        audioManager.setSpeakerphoneOn(isSpeaker);
-      }
+//      btnSpeaker.setBackgroundResource(
+//        isSpeaker ? drawable.btn_speaker_on : drawable.btn_speaker_off
+//      );
+//      if (audioManager != null) {
+//        audioManager.setSpeakerphoneOn(isSpeaker);
+//      }
+      if(isSpeaker) setSpeakerOff();
+      else setSpeakerOn();
     } else if (id == R.id.btn_end) {
       tvState.setText("Ended");
       endCall();
@@ -621,6 +624,33 @@ public class OutgoingCallActivity
     );
   }
 
+  private void setSpeakerOn() {
+    isSpeaker = true;
+    AudioManager aManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    boolean isBluetoothConnected = aManager.isBluetoothA2dpOn();
+    if(isBluetoothConnected) {
+//      audioManager.setBluetoothScoOn(false)
+      aManager.stopBluetoothSco();
+      aManager.setBluetoothScoOn(false);
+    }
+    if(audioManager != null) audioManager.setSpeakerphoneOn(true);
+    btnSpeaker.setBackgroundResource(drawable.btn_speaker_on);
+  }
+
+  private void setSpeakerOff() {
+    isSpeaker = false;
+    AudioManager aManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    boolean isBluetoothConnected = aManager.isBluetoothA2dpOn();
+    if(isBluetoothConnected) {
+      Log.d(Common.TAG, "bluetooth connected");
+      aManager.setMode(AudioManager.MODE_NORMAL);
+      aManager.startBluetoothSco();
+      aManager.setBluetoothScoOn(true);
+    }
+    else if(audioManager!=null) audioManager.setSpeakerphoneOn(false);
+    btnSpeaker.setBackgroundResource(drawable.btn_speaker_off);
+  }
+
   public void setViewInPIPmode() {
     btnBack.setVisibility(View.INVISIBLE);
     vAvatar.setVisibility(View.INVISIBLE);
@@ -629,11 +659,6 @@ public class OutgoingCallActivity
     btnMute.setVisibility(View.INVISIBLE);
 
     textPipMode.setVisibility(View.VISIBLE);
-    
-    if (audioManager != null) {
-      isSpeaker = true;
-      audioManager.setSpeakerphoneOn(isSpeaker);
-    }
   }
 
   public void setViewInNormalMode() {
