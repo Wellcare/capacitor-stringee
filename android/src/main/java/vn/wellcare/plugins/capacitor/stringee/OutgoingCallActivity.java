@@ -37,6 +37,8 @@ import com.stringee.call.StringeeCall.SignalingState;
 import com.stringee.call.StringeeCall.StringeeCallListener;
 import com.stringee.common.StringeeAudioManager;
 import com.stringee.exception.StringeeError;
+
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -254,6 +256,15 @@ public class OutgoingCallActivity
     }
   }
 
+  private boolean isValidURL(String url){
+    try {
+      new URL(url).toURI();
+      return true;
+    }
+    catch (Exception e) {
+      return  false;
+    }
+  }
   /**
    * Initialize the UI elements of the outgoing call activity.
    */
@@ -297,7 +308,7 @@ public class OutgoingCallActivity
 
     btnVideo.setVisibility(isVideo ? View.VISIBLE : View.GONE);
     // btnSwitch.setVisibility(isVideo ? View.VISIBLE : View.GONE);
-    Picasso.get().load(avatar).resize(300, 300).into(vAvatar);
+    if(isValidURL(avatar)) Picasso.get().load(avatar).resize(300, 300).into(vAvatar);
   }
 
   /**
