@@ -125,7 +125,7 @@ public class OutgoingCallActivity
       NotificationChannel channel = new NotificationChannel(
               CHANNEL_ID,
               "Channel",
-              NotificationManager.IMPORTANCE_HIGH
+              NotificationManager.IMPORTANCE_LOW
       );
       manager.createNotificationChannel(channel);
     }
