@@ -36,24 +36,18 @@ export default defineComponent({
     const StringeePlugin = CapacitorStringee
     const connect = () => {
       if (process.client)
-        StringeePlugin.StringeeConnect(
-          {
-            token: token.value
-          },
-          onClientEvent
-        )
+        StringeePlugin.StringeeConnect({
+          token: token.value
+        })
     }
     const call = () => {
       if (process.client)
-        StringeePlugin.StringeeCall(
-          {
-            from: callFrom.value,
-            to: callTo.value,
-            displayName: 'User',
-            displayImage: 'https://i.pravatar.cc/300'
-          },
-          onCallEvent
-        )
+        StringeePlugin.StringeeCall({
+          from: callFrom.value,
+          to: callTo.value,
+          displayName: 'User',
+          displayImage: 'https://i.pravatar.cc/300'
+        })
     }
     const reject = () => {
       if (process.client)
@@ -61,16 +55,16 @@ export default defineComponent({
           log({ context: 'Stringee', message: `onReject ${data.event}`, data })
         })
     }
-    const onClientEvent = (data: any) => {
-      log({ context: 'Stringee', message: `onClientEvent ${data.event}`, data })
-      if (data.event === 'authen') isAuth.value = true
-    }
-    const onCallEvent = (data: any) => {
-      log({ context: 'Stringee', message: `onCallEvent ${data.event}`, data })
-      if (data.event === 'signaling-state') {
-        status.value = data.data.reason
-      }
-    }
+    // const onClientEvent = (data: any) => {
+    //   log({ context: 'Stringee', message: `onClientEvent ${data.event}`, data })
+    //   if (data.event === 'authen') isAuth.value = true
+    // }
+    // const onCallEvent = (data: any) => {
+    //   log({ context: 'Stringee', message: `onCallEvent ${data.event}`, data })
+    //   if (data.event === 'signaling-state') {
+    //     status.value = data.data.reason
+    //   }
+    // }
     return {
       token,
       callFrom,
