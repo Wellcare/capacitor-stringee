@@ -513,34 +513,6 @@ public class OutgoingCallActivity
     } else if (id == R.id.btn_back) {
       switchToPIPmode();
     }
-    //        else if (id == R.id.btn_switch) {
-    //            if (stringeeCall != null) {
-    //                stringeeCall.switchCamera(
-    //                        new StatusListener() {
-    //                            @Override
-    //                            public void onSuccess() {
-    //                            }
-    //
-    //                            @Override
-    //                            public void onError(StringeeError stringeeError) {
-    //                                super.onError(stringeeError);
-    //                                runOnUiThread(
-    //                                        () -> {
-    //                                            Log.d(
-    //                                                    Common.TAG,
-    //                                                    "switchCamera error: " + stringeeError.getMessage()
-    //                                            );
-    //                                            Utils.reportMessage(
-    //                                                    OutgoingCallActivity.this,
-    //                                                    stringeeError.getMessage()
-    //                                            );
-    //                                        }
-    //                                );
-    //                            }
-    //                        }
-    //                );
-    //            }
-    //        }
   }
 
   @Override
