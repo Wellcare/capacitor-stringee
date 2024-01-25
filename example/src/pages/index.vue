@@ -27,7 +27,7 @@ export default defineComponent({
     const { log } = useLog()
     // const { token } = useStringee()
     const token = ref(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTQwNjEzMDM5ODEiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjk0MTQ3NzAzOTgxLCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTQwNjEzMDN9.eVl54BLT-PGb3-7P-JnZ6UJSd2OmEANXg3Ah5QlcN6g'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InN0cmluZ2VlLWFwaTt2PTEifQ.eyJqdGkiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCXzE2OTQzOTM2NjgxMjgiLCJpc3MiOiJTS3NXTXlPZjhqUm51c3dPS1pEOXI5alZtVHE2bXB2MzhCIiwiZXhwIjoxNjk0NDgwMDY4MTI4LCJ1c2VySWQiOiIzODcyODMiLCJpYXQiOjE2OTQzOTM2Njh9.6ujMrjrMWb-I7W2VfzFUU9jbnYLOAmpxPUJl09290Pw'
     )
     const callFrom = ref('387283')
     const callTo = ref('user-64c1c7c8f3e1c16f553aa42b')

@@ -601,7 +601,9 @@ public class OutgoingCallActivity
     AudioManager aManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
     boolean isBluetoothConnected = aManager.isBluetoothA2dpOn();
     if(isBluetoothConnected) {
-      audioManager.setBluetoothScoOn(false);
+//      audioManager.setBluetoothScoOn(false)
+      aManager.stopBluetoothSco();
+      aManager.setBluetoothScoOn(false);
     }
     if(audioManager != null) audioManager.setSpeakerphoneOn(true);
     btnSpeaker.setBackgroundResource(drawable.btn_speaker_on);
@@ -612,9 +614,12 @@ public class OutgoingCallActivity
     AudioManager aManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
     boolean isBluetoothConnected = aManager.isBluetoothA2dpOn();
     if(isBluetoothConnected) {
-      audioManager.setBluetoothScoOn(true);
+      Log.d(Common.TAG, "bluetooth connected");
+      aManager.setMode(AudioManager.MODE_NORMAL);
+      aManager.startBluetoothSco();
+      aManager.setBluetoothScoOn(true);
     }
-    if(audioManager!=null) audioManager.setSpeakerphoneOn(false);
+    else if(audioManager!=null) audioManager.setSpeakerphoneOn(false);
     btnSpeaker.setBackgroundResource(drawable.btn_speaker_off);
   }
 
@@ -626,8 +631,6 @@ public class OutgoingCallActivity
     btnMute.setVisibility(View.INVISIBLE);
 
     textPipMode.setVisibility(View.VISIBLE);
-    
-    setSpeakerOn();
   }
 
   public void setViewInNormalMode() {
