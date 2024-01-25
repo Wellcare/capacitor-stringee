@@ -50,10 +50,24 @@ export class CapacitorStringeeWeb
   }
 
   mute(): Promise<void> {
-    throw new Error('Method not implemented.')
+    return new Promise((resolve, reject) => {
+      if (this.#call) {
+        this.#call.mute(true)
+        resolve()
+      } else {
+        reject('No instance')
+      }
+    })
   }
   unmute(): Promise<void> {
-    throw new Error('Method not implemented.')
+    return new Promise((resolve, reject) => {
+      if (this.#call) {
+        this.#call.mute(false)
+        resolve()
+      } else {
+        reject('No instance')
+      }
+    })
   }
 
   StringeeCall(data: {
