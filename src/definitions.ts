@@ -24,8 +24,7 @@ export interface CapacitorStringeePlugin {
   addListener(
     eventName: 'onConnectionConnected' | 'onConnectionDisconnected',
     listenerFunc: (data: { uid: string; isReconnecting: boolean }) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   addListener(
     eventName: 'onConnectionError',
     listenerFunc: (data: {
@@ -33,13 +32,11 @@ export interface CapacitorStringeePlugin {
       error: string
       message: string
     }) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   addListener(
     eventName: 'onRequestNewToken',
     listenerFunc: (data: any) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   addListener(
     eventName: 'onCustomMessage',
     listenerFunc: (data: {
@@ -47,28 +44,23 @@ export interface CapacitorStringeePlugin {
       from: string
       message?: string
     }) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   addListener(
     eventName: 'exception',
     listenerFunc: (data: { message?: string; data?: any }) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   addListener(
     eventName: 'onStringeeCallEvent',
     listenerFunc: (data: { event: string, data?: any }) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   addListener(
     eventName: 'onAuthenticated',
     listenerFunc: (data: any) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   addListener(
     eventName: 'onStringeeDidHangup',
     listenerFunc: (data: any) => void
-  ): Promise<PluginListenerHandle> & PluginListenerHandle
-
+  ): Promise<PluginListenerHandle>
   /**
    * Removes all listeners
    */

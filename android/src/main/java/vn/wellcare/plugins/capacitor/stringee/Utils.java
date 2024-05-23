@@ -9,7 +9,8 @@ import android.provider.Settings;
 import android.view.Gravity;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog.Builder;
-import vn.wellcare.plugins.capacitor.stringee.R.string;
+
+// import vn.wellcare.plugins.capacitor.stringee.R.string;
 
 public class Utils {
 
