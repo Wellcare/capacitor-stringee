@@ -37,7 +37,6 @@ import com.stringee.call.StringeeCall.SignalingState;
 import com.stringee.call.StringeeCall.StringeeCallListener;
 import com.stringee.common.StringeeAudioManager;
 import com.stringee.exception.StringeeError;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +68,7 @@ class StringeeStatusListener extends com.stringee.listener.StatusListener {
 public class OutgoingCallActivity
   extends AppCompatActivity
   implements View.OnClickListener {
+
   static final String CHANNEL_ID = "outgoingcall_service_channel";
   private FrameLayout vRemote;
   private TextView tvState, vName, textPipMode;
@@ -104,6 +104,7 @@ public class OutgoingCallActivity
   // /**
   //  * Setting up the activity UI, checking and requesting for necessary permissions, and starting the call.
   //  */
+
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     from = getIntent().getStringExtra("from");
@@ -116,16 +117,16 @@ public class OutgoingCallActivity
     startService();
   }
 
-  private void startService(){
+  private void startService() {
     NotificationManager manager = null;
     if (VERSION.SDK_INT >= VERSION_CODES.M) {
       manager = getSystemService(NotificationManager.class);
     }
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
       NotificationChannel channel = new NotificationChannel(
-              CHANNEL_ID,
-              "Channel",
-              NotificationManager.IMPORTANCE_HIGH
+        CHANNEL_ID,
+        "Channel",
+        NotificationManager.IMPORTANCE_HIGH
       );
       manager.createNotificationChannel(channel);
     }
@@ -136,7 +137,7 @@ public class OutgoingCallActivity
     }
   }
 
-  private void stopService(){
+  private void stopService() {
     Intent serviceIntent = new Intent(this, OutgoingCallService.class);
     stopService(serviceIntent);
   }
@@ -256,15 +257,15 @@ public class OutgoingCallActivity
     }
   }
 
-  private boolean isValidURL(String url){
+  private boolean isValidURL(String url) {
     try {
       new URL(url).toURI();
       return true;
-    }
-    catch (Exception e) {
-      return  false;
+    } catch (Exception e) {
+      return false;
     }
   }
+
   /**
    * Initialize the UI elements of the outgoing call activity.
    */
@@ -308,7 +309,11 @@ public class OutgoingCallActivity
 
     btnVideo.setVisibility(isVideo ? View.VISIBLE : View.GONE);
     // btnSwitch.setVisibility(isVideo ? View.VISIBLE : View.GONE);
-    if(isValidURL(avatar)) Picasso.get().load(avatar).resize(300, 300).into(vAvatar);
+    if (isValidURL(avatar)) Picasso
+      .get()
+      .load(avatar)
+      .resize(300, 300)
+      .into(vAvatar);
   }
 
   /**
@@ -502,14 +507,13 @@ public class OutgoingCallActivity
         stringeeCall.mute(isMute);
       }
     } else if (id == R.id.btn_speaker) {
-//      btnSpeaker.setBackgroundResource(
-//        isSpeaker ? drawable.btn_speaker_on : drawable.btn_speaker_off
-//      );
-//      if (audioManager != null) {
-//        audioManager.setSpeakerphoneOn(isSpeaker);
-//      }
-      if(isSpeaker) setSpeakerOff();
-      else setSpeakerOn();
+      //      btnSpeaker.setBackgroundResource(
+      //        isSpeaker ? drawable.btn_speaker_on : drawable.btn_speaker_off
+      //      );
+      //      if (audioManager != null) {
+      //        audioManager.setSpeakerphoneOn(isSpeaker);
+      //      }
+      if (isSpeaker) setSpeakerOff(); else setSpeakerOn();
     } else if (id == R.id.btn_end) {
       tvState.setText("Ended");
       endCall();
@@ -531,14 +535,15 @@ public class OutgoingCallActivity
     super.onDestroy();
     Log.d(Common.TAG, "app closed");
     timer.cancel();
-    try{
+    try {
       // ver 1.9.0
       //     stringeeCall.hangup();
       // ver 2.0
       stringeeCall.hangup(statusListener);
-      if(Common.client != null && Common.client.isConnected()) Common.client.disconnect();
-    }
-    catch (Exception e) {
+      if (
+        Common.client != null && Common.client.isConnected()
+      ) Common.client.disconnect();
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -549,11 +554,12 @@ public class OutgoingCallActivity
     // ver 2.0
     try {
       stringeeCall.hangup(statusListener);
-      if(Common.client != null && Common.client.isConnected()) Common.client.disconnect();
+      if (
+        Common.client != null && Common.client.isConnected()
+      ) Common.client.disconnect();
       stopService();
       dismissLayout();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -609,28 +615,31 @@ public class OutgoingCallActivity
 
   private void setSpeakerOn() {
     isSpeaker = true;
-    AudioManager aManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    AudioManager aManager = (AudioManager) getSystemService(
+      Context.AUDIO_SERVICE
+    );
     boolean isBluetoothConnected = aManager.isBluetoothA2dpOn();
-    if(isBluetoothConnected) {
-//      audioManager.setBluetoothScoOn(false)
+    if (isBluetoothConnected) {
+      //      audioManager.setBluetoothScoOn(false)
       aManager.stopBluetoothSco();
       aManager.setBluetoothScoOn(false);
     }
-    if(audioManager != null) audioManager.setSpeakerphoneOn(true);
+    if (audioManager != null) audioManager.setSpeakerphoneOn(true);
     btnSpeaker.setBackgroundResource(drawable.btn_speaker_on);
   }
 
   private void setSpeakerOff() {
     isSpeaker = false;
-    AudioManager aManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    AudioManager aManager = (AudioManager) getSystemService(
+      Context.AUDIO_SERVICE
+    );
     boolean isBluetoothConnected = aManager.isBluetoothA2dpOn();
-    if(isBluetoothConnected) {
+    if (isBluetoothConnected) {
       Log.d(Common.TAG, "bluetooth connected");
       aManager.setMode(AudioManager.MODE_NORMAL);
       aManager.startBluetoothSco();
       aManager.setBluetoothScoOn(true);
-    }
-    else if(audioManager!=null) audioManager.setSpeakerphoneOn(false);
+    } else if (audioManager != null) audioManager.setSpeakerphoneOn(false);
     btnSpeaker.setBackgroundResource(drawable.btn_speaker_off);
   }
 

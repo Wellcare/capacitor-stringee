@@ -20,14 +20,14 @@ npx cap sync
 * [`StringeeHangup(...)`](#stringeehangup)
 * [`mute()`](#mute)
 * [`unmute()`](#unmute)
-* [`addListener('onConnectionConnected' | 'onConnectionDisconnected', ...)`](#addlisteneronconnectionconnected--onconnectiondisconnected)
-* [`addListener('onConnectionError', ...)`](#addlisteneronconnectionerror)
-* [`addListener('onRequestNewToken', ...)`](#addlisteneronrequestnewtoken)
-* [`addListener('onCustomMessage', ...)`](#addlisteneroncustommessage)
-* [`addListener('exception', ...)`](#addlistenerexception)
-* [`addListener('onStringeeCallEvent', ...)`](#addlisteneronstringeecallevent)
-* [`addListener('onAuthenticated', ...)`](#addlisteneronauthenticated)
-* [`addListener('onStringeeDidHangup', ...)`](#addlisteneronstringeedidhangup)
+* [`addListener('onConnectionConnected' | 'onConnectionDisconnected', ...)`](#addlisteneronconnectionconnected--onconnectiondisconnected-)
+* [`addListener('onConnectionError', ...)`](#addlisteneronconnectionerror-)
+* [`addListener('onRequestNewToken', ...)`](#addlisteneronrequestnewtoken-)
+* [`addListener('onCustomMessage', ...)`](#addlisteneroncustommessage-)
+* [`addListener('exception', ...)`](#addlistenerexception-)
+* [`addListener('onStringeeCallEvent', ...)`](#addlisteneronstringeecallevent-)
+* [`addListener('onAuthenticated', ...)`](#addlisteneronauthenticated-)
+* [`addListener('onStringeeDidHangup', ...)`](#addlisteneronstringeedidhangup-)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 
@@ -128,7 +128,7 @@ unmute() => Promise<void>
 ### addListener('onConnectionConnected' | 'onConnectionDisconnected', ...)
 
 ```typescript
-addListener(eventName: 'onConnectionConnected' | 'onConnectionDisconnected', listenerFunc: (data: { uid: string; isReconnecting: boolean; }) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onConnectionConnected' | 'onConnectionDisconnected', listenerFunc: (data: { uid: string; isReconnecting: boolean; }) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                                                      |
@@ -136,7 +136,7 @@ addListener(eventName: 'onConnectionConnected' | 'onConnectionDisconnected', lis
 | **`eventName`**    | <code>'onConnectionConnected' \| 'onConnectionDisconnected'</code>        |
 | **`listenerFunc`** | <code>(data: { uid: string; isReconnecting: boolean; }) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -144,7 +144,7 @@ addListener(eventName: 'onConnectionConnected' | 'onConnectionDisconnected', lis
 ### addListener('onConnectionError', ...)
 
 ```typescript
-addListener(eventName: 'onConnectionError', listenerFunc: (data: { code: string; error: string; message: string; }) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onConnectionError', listenerFunc: (data: { code: string; error: string; message: string; }) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                                                              |
@@ -152,7 +152,7 @@ addListener(eventName: 'onConnectionError', listenerFunc: (data: { code: string;
 | **`eventName`**    | <code>'onConnectionError'</code>                                                  |
 | **`listenerFunc`** | <code>(data: { code: string; error: string; message: string; }) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -160,7 +160,7 @@ addListener(eventName: 'onConnectionError', listenerFunc: (data: { code: string;
 ### addListener('onRequestNewToken', ...)
 
 ```typescript
-addListener(eventName: 'onRequestNewToken', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onRequestNewToken', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                |
@@ -168,7 +168,7 @@ addListener(eventName: 'onRequestNewToken', listenerFunc: (data: any) => void) =
 | **`eventName`**    | <code>'onRequestNewToken'</code>    |
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -176,7 +176,7 @@ addListener(eventName: 'onRequestNewToken', listenerFunc: (data: any) => void) =
 ### addListener('onCustomMessage', ...)
 
 ```typescript
-addListener(eventName: 'onCustomMessage', listenerFunc: (data: { msg: string; from: string; message?: string; }) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onCustomMessage', listenerFunc: (data: { msg: string; from: string; message?: string; }) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                                                             |
@@ -184,7 +184,7 @@ addListener(eventName: 'onCustomMessage', listenerFunc: (data: { msg: string; fr
 | **`eventName`**    | <code>'onCustomMessage'</code>                                                   |
 | **`listenerFunc`** | <code>(data: { msg: string; from: string; message?: string; }) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -192,7 +192,7 @@ addListener(eventName: 'onCustomMessage', listenerFunc: (data: { msg: string; fr
 ### addListener('exception', ...)
 
 ```typescript
-addListener(eventName: 'exception', listenerFunc: (data: { message?: string | undefined; data?: any; }) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'exception', listenerFunc: (data: { message?: string | undefined; data?: any; }) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                                              |
@@ -200,7 +200,7 @@ addListener(eventName: 'exception', listenerFunc: (data: { message?: string | un
 | **`eventName`**    | <code>'exception'</code>                                          |
 | **`listenerFunc`** | <code>(data: { message?: string; data?: any; }) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -208,7 +208,7 @@ addListener(eventName: 'exception', listenerFunc: (data: { message?: string | un
 ### addListener('onStringeeCallEvent', ...)
 
 ```typescript
-addListener(eventName: 'onStringeeCallEvent', listenerFunc: (data: { event: string; data?: any; }) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onStringeeCallEvent', listenerFunc: (data: { event: string; data?: any; }) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                                           |
@@ -216,7 +216,7 @@ addListener(eventName: 'onStringeeCallEvent', listenerFunc: (data: { event: stri
 | **`eventName`**    | <code>'onStringeeCallEvent'</code>                             |
 | **`listenerFunc`** | <code>(data: { event: string; data?: any; }) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -224,7 +224,7 @@ addListener(eventName: 'onStringeeCallEvent', listenerFunc: (data: { event: stri
 ### addListener('onAuthenticated', ...)
 
 ```typescript
-addListener(eventName: 'onAuthenticated', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onAuthenticated', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                |
@@ -232,7 +232,7 @@ addListener(eventName: 'onAuthenticated', listenerFunc: (data: any) => void) => 
 | **`eventName`**    | <code>'onAuthenticated'</code>      |
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -240,7 +240,7 @@ addListener(eventName: 'onAuthenticated', listenerFunc: (data: any) => void) => 
 ### addListener('onStringeeDidHangup', ...)
 
 ```typescript
-addListener(eventName: 'onStringeeDidHangup', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onStringeeDidHangup', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle>
 ```
 
 | Param              | Type                                |
@@ -248,7 +248,7 @@ addListener(eventName: 'onStringeeDidHangup', listenerFunc: (data: any) => void)
 | **`eventName`**    | <code>'onStringeeDidHangup'</code>  |
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
