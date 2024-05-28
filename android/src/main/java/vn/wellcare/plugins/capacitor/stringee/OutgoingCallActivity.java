@@ -189,17 +189,17 @@ public class OutgoingCallActivity
         }
       }
 
-      if (VERSION.SDK_INT >= VERSION_CODES.S) {
-        if (
-          ContextCompat.checkSelfPermission(
-            this,
-            permission.BLUETOOTH_CONNECT
-          ) !=
-          PackageManager.PERMISSION_GRANTED
-        ) {
-          lstPermissions.add(permission.BLUETOOTH_CONNECT);
-        }
-      }
+      // if (VERSION.SDK_INT >= VERSION_CODES.S) {
+      //   if (
+      //     ContextCompat.checkSelfPermission(
+      //       this,
+      //       permission.BLUETOOTH_CONNECT
+      //     ) !=
+      //     PackageManager.PERMISSION_GRANTED
+      //   ) {
+      //     lstPermissions.add(permission.BLUETOOTH_CONNECT);
+      //   }
+      // }
 
       if (lstPermissions.size() > 0) {
         String[] permissions = new String[lstPermissions.size()];
@@ -249,6 +249,7 @@ public class OutgoingCallActivity
       if (!isGranted) {
         isPermissionGranted = false;
         tvState.setText("Ended");
+        stopService();
         dismissLayout();
       } else {
         isPermissionGranted = true;
