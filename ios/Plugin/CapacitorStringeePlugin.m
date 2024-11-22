@@ -7,5 +7,6 @@ CAP_PLUGIN(CapacitorStringeePlugin, "CapacitorStringee",
            CAP_PLUGIN_METHOD(echo, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(StringeeConnect, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(StringeeCall, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(StringeeHangup, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(removeAllListeners, CAPPluginReturnNone);
 )

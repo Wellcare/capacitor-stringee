@@ -1,14 +1,11 @@
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
 /*! Capacitor: https://capacitorjs.com/ - MIT License */
-
-
-//! moment.js
-
-//! moment.js locale configuration
-
-
-/*! Capacitor: https://capacitorjs.com/ - MIT License */
-
-//! moment.js
 
 
 /**!
@@ -19,19 +16,7 @@
  */
 
 
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-
+//! moment.js
 
 //! moment.js locale configuration
 
@@ -56,15 +41,7 @@ object-assign
  */
 
 
-/**!
- * Sortable 1.10.2
- * @author	RubaXa   <trash@rubaxa.org>
- * @author	owenm    <owen23355@gmail.com>
- * @license MIT
- */
-
 /*! Capacitor: https://capacitorjs.com/ - MIT License */
-
 
 /*!
  * vue-client-only v0.0.0-semantic-release

@@ -258,6 +258,7 @@ public class CapacitorStringeePlugin extends Plugin {
   public void StringeeReject(PluginCall call) {
     Log.d(Common.TAG, "StringeeReject");
   }
+
   // @PluginMethod
   // public void StringeeHangup(PluginCall call) {
   //   implementation.StringeeHangup((data) -> {
@@ -266,4 +267,10 @@ public class CapacitorStringeePlugin extends Plugin {
   //     call.resolve(ret);
   //   });
   // }
+
+  @PluginMethod
+  public void StringeeHangup(PluginCall call) {
+    Common.client.disconnect();
+    call.resolve();
+  }
 }
