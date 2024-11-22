@@ -44,7 +44,10 @@ public class CapacitorStringeePlugin: CAPPlugin {
     @objc func StringeeReject(_ call: CAPPluginCall) {
         call.resolve()
     }
-    
+    @objc func StringeeHangup(_ call: CAPPluginCall) {
+        stringeeClient.disconnect()
+        call.resolve()
+    }
     func makeCall(_ to: String, _ displayName: String, _ displayImage: String) {
         if (!stringeeClient.hasConnected || to == "") {
             

@@ -7,5 +7,9 @@
 	"cordova": {},
 	"server": {
 		"iosScheme": "nuxtmobile"
-	}
+	},
+	"packageClassList": [
+		"CapacitorStringeePlugin",
+		"CapacitorStringeePlugin"
+	]
 }
